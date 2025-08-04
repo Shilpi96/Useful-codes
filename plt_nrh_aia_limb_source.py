@@ -60,6 +60,7 @@ def plot_contours(aia,dtime, fname):
 	nrh_map = nrh_sunpy_map(fname, dtime = dtime)
 	nrh_map.meta['rsun_ref'] = aia.meta['rsun_ref']
 	print('start plotting the contours')
+	##### if the source is at limb, then use a spherical screen
 	with frames.Helioprojective.assume_spherical_screen(aia_map.observer_coordinate):
 		nrh_map.draw_contours(axes = ax, levels=np.arange(90, 100, 3)*u.percent)
  
