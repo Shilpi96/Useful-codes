@@ -1,4 +1,4 @@
-#### plot nrh contours using nrh fits files on top of AIA
+#### plot nrh contours of limb sources on top of AIA
 
 from astropy.io import fits
 from astropy import units as u 
@@ -61,15 +61,13 @@ def plot_contours(aia,dtime, fname):
 	nrh_map.meta['rsun_ref'] = aia.meta['rsun_ref']
 	print('start plotting the contours')
 	with frames.Helioprojective.assume_spherical_screen(aia_map.observer_coordinate):
-		nrh_map2 = nrh_map.reproject_to(aia_map.wcs)
-	#pdb.set_trace()
-	print('plotting the contours')
-	nrh_map2.draw_contours(levels=np.arange(90, 100, 3)*u.percent)
+		nrh_map.draw_contours(axes = ax, levels=np.arange(90, 100, 3)*u.percent)
  
 
 ### make a list of nrh files
 root1 = '/home/shilpi/march_campaign/event_2025_03_28/data/'
 nrh = root1+'nrh2_4320_h80_20250328_150700c04_b.fts'
+#pdb.set_trace()
 #### load aia file
 aia_map = sunpy.map.Map(root1+'171/aia.lev1.171A_2025_03_28T15_18_33.35Z.image_lev1.fits')
 fig = plt.figure()
@@ -79,6 +77,7 @@ cmap.set_bad("k")
 print('plotting the aia data')
 aia_map.plot(axes=ax, clip_interval=(1, 99.99)*u.percent)
 collist = plt.cm.coolwarm(np.linspace(0,1, 9))
+
 plot_contours(aia_map,datetime(2025,3,28, 15,18,34,222000),nrh)
 ax.patch.set_facecolor('black')
 xlims_world = [-1400, -500]*u.arcsec
