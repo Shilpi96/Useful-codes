@@ -63,9 +63,9 @@ print("rdata shape:", rdata.shape)
 data = (ldata + rdata) / 2.0
 
 # =========================
-# 7. OPTIONAL CLEANING
+# 7. DATA PERCENTILE FOR PLOTTING
 # =========================
-# Remove extreme outliers (RFI mitigation)
+# Percentile of data for colormap
 vmin = np.percentile(data, 5)
 vmax = np.percentile(data, 95)
 
@@ -99,7 +99,7 @@ plt.tight_layout()
 plt.show()
 
 # =========================
-# 9. SAVE ARRAYS (OPTIONAL)
+# 9. SAVE ARRAYS 
 # =========================
 np.save('ldata.npy', ldata)
 np.save('rdata.npy', rdata)
