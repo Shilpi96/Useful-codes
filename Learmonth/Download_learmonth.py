@@ -1,5 +1,5 @@
 # Original code: Soham Dey
-# Modified: Shilpi Bhunia + ChatGPT (with outdir support)
+# Modified: Shilpi Bhunia 
 # keep srs_data.py in the same directory to convert data to pd dataframe
 import pandas as pd
 import sys, os, numpy as np
