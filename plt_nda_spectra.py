@@ -114,69 +114,6 @@ axs[1].set_xlabel('Time (UT)')
 plt.tight_layout()
 plt.show()
 
-print("Done!")endt   = datetime(2025, 3, 26, 9, 51)
-
-startid = np.argmin(np.abs(times - startt))
-endid   = np.argmin(np.abs(times - endt))
-
-Times = times[startid:endid]
-Data  = hdul[2].data[startid:endid]
-
-print("Selected time range:", Times[0], "to", Times[-1])
-
-# =========================
-# 5. EXTRACT LL & RR (FAST)
-# =========================
-# Data[i][1] → (freq, polarization)
-# polarization: 0 = LL, 1 = RR
-
-ldata = np.array([row[1][:, 0] for row in Data])
-rdata = np.array([row[1][:, 1] for row in Data])
-
-# shape check
-print("ldata shape:", ldata.shape)  # (time, freq)
-print("rdata shape:", rdata.shape)
-
-# =========================
-# 6. STOKES I (TOTAL POWER)
-# =========================
-data = (ldata + rdata) / 2.0
-
-# =========================
-# 7. DATA PERCENTILE FOR PLOTTING
-# =========================
-# Percentile of data for colormap
-vmin = np.percentile(data, 5)
-vmax = np.percentile(data, 95)
-
-# =========================
-# 8. PLOT DYNAMIC SPECTRUM
-# =========================
-time_nums = mdates.date2num(Times)
-
-plt.figure(figsize=(12, 6))
-
-plt.pcolormesh(time_nums, freq, data.T,
-               shading='auto',
-               cmap='viridis',
-               norm=LogNorm(vmin=np.percentile(data, 5),
-                            vmax=np.percentile(data, 95)))
-
-plt.colorbar(label='Intensity (log scale)')
-
-# Format time axis
-plt.gca().xaxis_date()
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
-
-# Flip frequency axis (common for NDA)
-plt.gca().invert_yaxis()
-
-plt.xlabel('Time (UT)')
-plt.ylabel('Frequency (MHz)')
-plt.title('NDA Dynamic Spectrum (Stokes I)')
-
-plt.tight_layout()
-plt.show()
 
 # =========================
 # 9. SAVE ARRAYS 
